@@ -37,11 +37,15 @@ public class ExceptionsManagerModule extends BaseJavaModule {
 
   @ReactMethod
   public void reportFatalException(String title, ReadableArray details, int exceptionId) {
+    // 监听js异常堆栈信息
+    ExceptionsManagerHooker.getInstance().notifyExceptions(title, details, exceptionId);
     showOrThrowError(title, details, exceptionId);
   }
 
   @ReactMethod
   public void reportSoftException(String title, ReadableArray details, int exceptionId) {
+    // 监听js异常堆栈信息
+    ExceptionsManagerHooker.getInstance().notifyExceptions(title, details, exceptionId);
     if (mDevSupportManager.getDevSupportEnabled()) {
       mDevSupportManager.showNewJSError(title, details, exceptionId);
     } else {
