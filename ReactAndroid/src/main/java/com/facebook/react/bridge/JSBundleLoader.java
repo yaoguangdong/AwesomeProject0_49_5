@@ -12,6 +12,7 @@ package com.facebook.react.bridge;
 import android.content.Context;
 
 import com.facebook.react.common.DebugServerException;
+import com.facebook.react.listeners.JSBundleLoadObserver;
 
 /**
  * A class that stores JS bundle information and allows {@link CatalystInstance} to load a correct
@@ -32,6 +33,8 @@ public abstract class JSBundleLoader {
       @Override
       public String loadScript(CatalystInstanceImpl instance) {
         instance.loadScriptFromAssets(context.getAssets(), assetUrl, loadSynchronously);
+        // 监听bundle加载
+        JSBundleLoadObserver.getInstance().loadScriptFromAssets(0, assetUrl, loadSynchronously);
         return assetUrl;
       }
     };
@@ -53,6 +56,8 @@ public abstract class JSBundleLoader {
       @Override
       public String loadScript(CatalystInstanceImpl instance) {
         instance.loadScriptFromFile(fileName, assetUrl, loadSynchronously);
+        // 监听bundle加载
+        JSBundleLoadObserver.getInstance().loadScriptFromFile(0, fileName, loadSynchronously);
         return fileName;
       }
     };
@@ -73,6 +78,8 @@ public abstract class JSBundleLoader {
       public String loadScript(CatalystInstanceImpl instance) {
         try {
           instance.loadScriptFromFile(cachedFileLocation, sourceURL, false);
+          // 监听bundle加载
+          JSBundleLoadObserver.getInstance().loadScriptFromNetworkLoader(0, sourceURL);
           return sourceURL;
         } catch (Exception e) {
           throw DebugServerException.makeGeneric(e.getMessage(), e);
@@ -92,6 +99,8 @@ public abstract class JSBundleLoader {
       @Override
       public String loadScript(CatalystInstanceImpl instance) {
         instance.setSourceURLs(realSourceURL, proxySourceURL);
+        // 监听bundle加载
+        JSBundleLoadObserver.getInstance().loadScriptFromRemoteDebugger(0, realSourceURL);
         return realSourceURL;
       }
     };

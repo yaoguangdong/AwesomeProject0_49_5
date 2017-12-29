@@ -1,4 +1,4 @@
-package com.facebook.react.modules.core;
+package com.facebook.react.listeners;
 
 import com.facebook.react.bridge.ReadableArray;
 
@@ -6,11 +6,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Description:
+ * Description:监听js错误
  * Created by yaoguangdong on 2017/12/27.
  */
 
-public class ExceptionsManagerHooker {
+public class JSExceptionsObserver {
 
     private List<JSExceptionsListener> mListeners = new ArrayList<>();
 
@@ -40,15 +40,15 @@ public class ExceptionsManagerHooker {
         }
     }
 
-    private ExceptionsManagerHooker(){
+    private JSExceptionsObserver(){
     }
 
-    public static ExceptionsManagerHooker getInstance(){
-        return ExceptionsManagerHookerHolder.sHooker;
+    public static JSExceptionsObserver getInstance(){
+        return JSExceptionsObserverHolder.sHolder;
     }
 
-    private static class ExceptionsManagerHookerHolder {
-        private static final ExceptionsManagerHooker sHooker = new ExceptionsManagerHooker();
+    private static class JSExceptionsObserverHolder {
+        private static final JSExceptionsObserver sHolder = new JSExceptionsObserver();
     }
 
     /**

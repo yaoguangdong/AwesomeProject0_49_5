@@ -35,6 +35,8 @@ import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.bridge.WritableNativeMap;
 import com.facebook.react.common.ReactConstants;
 import com.facebook.react.common.annotations.VisibleForTesting;
+import com.facebook.react.listeners.RNExceptionType;
+import com.facebook.react.listeners.RNExceptionsObserver;
 import com.facebook.react.modules.appregistry.AppRegistry;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
 import com.facebook.react.modules.deviceinfo.DeviceInfoModule;
@@ -239,6 +241,9 @@ public class ReactRootView extends SizeMonitoringFrameLayout implements RootView
       }
 
       attachToReactInstanceManager();
+    } catch (Exception e) {
+      // 监听bundle加载的异常错误信息
+      RNExceptionsObserver.getInstance().notifyExceptions(RNExceptionType.ERROR_TYPE_BUNDLE, e);
     } finally {
       Systrace.endSection(TRACE_TAG_REACT_JAVA_BRIDGE);
     }

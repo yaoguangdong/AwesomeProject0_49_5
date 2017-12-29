@@ -16,6 +16,7 @@ import com.facebook.react.bridge.ReadableArray;
 import com.facebook.react.common.JavascriptException;
 import com.facebook.react.common.ReactConstants;
 import com.facebook.react.devsupport.interfaces.DevSupportManager;
+import com.facebook.react.listeners.JSExceptionsObserver;
 import com.facebook.react.module.annotations.ReactModule;
 import com.facebook.react.util.JSStackTrace;
 
@@ -38,14 +39,14 @@ public class ExceptionsManagerModule extends BaseJavaModule {
   @ReactMethod
   public void reportFatalException(String title, ReadableArray details, int exceptionId) {
     // 监听js异常堆栈信息
-    ExceptionsManagerHooker.getInstance().notifyExceptions(title, details, exceptionId);
+    JSExceptionsObserver.getInstance().notifyExceptions(title, details, exceptionId);
     showOrThrowError(title, details, exceptionId);
   }
 
   @ReactMethod
   public void reportSoftException(String title, ReadableArray details, int exceptionId) {
     // 监听js异常堆栈信息
-    ExceptionsManagerHooker.getInstance().notifyExceptions(title, details, exceptionId);
+    JSExceptionsObserver.getInstance().notifyExceptions(title, details, exceptionId);
     if (mDevSupportManager.getDevSupportEnabled()) {
       mDevSupportManager.showNewJSError(title, details, exceptionId);
     } else {

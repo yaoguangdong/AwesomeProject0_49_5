@@ -25,6 +25,8 @@ import com.facebook.infer.annotation.Assertions;
 import com.facebook.react.bridge.queue.MessageQueueThread;
 import com.facebook.react.bridge.queue.ReactQueueConfiguration;
 import com.facebook.react.common.LifecycleState;
+import com.facebook.react.listeners.RNExceptionType;
+import com.facebook.react.listeners.RNExceptionsObserver;
 
 /**
  * Abstract ContextWrapper for Android application or activity {@link Context} and
@@ -338,6 +340,7 @@ public class ReactContext extends ContextWrapper {
         !mCatalystInstance.isDestroyed() &&
         mNativeModuleCallExceptionHandler != null) {
       mNativeModuleCallExceptionHandler.handleException(e);
+      RNExceptionsObserver.getInstance().notifyExceptions(RNExceptionType.ERROR_TYPE_NATIVE, e);
     } else {
       throw e;
     }
