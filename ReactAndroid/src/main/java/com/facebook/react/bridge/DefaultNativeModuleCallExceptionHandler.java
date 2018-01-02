@@ -9,6 +9,9 @@
 
 package com.facebook.react.bridge;
 
+import com.facebook.react.listeners.RNExceptionType;
+import com.facebook.react.listeners.RNExceptionsObserver;
+
 /**
  * Crashy crashy exception handler.
  */
@@ -16,6 +19,7 @@ public class DefaultNativeModuleCallExceptionHandler implements NativeModuleCall
 
   @Override
   public void handleException(Exception e) {
+    RNExceptionsObserver.getInstance().notifyExceptions(RNExceptionType.ERROR_TYPE_NATIVE, e);
     if (e instanceof RuntimeException) {
       // Because we are rethrowing the original exception, the original stacktrace will be
       // preserved.

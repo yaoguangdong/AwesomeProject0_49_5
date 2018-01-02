@@ -22,6 +22,8 @@ import com.facebook.react.bridge.queue.ReactQueueConfigurationImpl;
 import com.facebook.react.bridge.queue.ReactQueueConfigurationSpec;
 import com.facebook.react.common.ReactConstants;
 import com.facebook.react.common.annotations.VisibleForTesting;
+import com.facebook.react.listeners.RNExceptionType;
+import com.facebook.react.listeners.RNExceptionsObserver;
 import com.facebook.systrace.Systrace;
 import com.facebook.systrace.TraceListener;
 import java.lang.ref.WeakReference;
@@ -478,6 +480,7 @@ public class CatalystInstanceImpl implements CatalystInstance {
 
   private void onNativeException(Exception e) {
     mNativeModuleCallExceptionHandler.handleException(e);
+    RNExceptionsObserver.getInstance().notifyExceptions(RNExceptionType.ERROR_TYPE_NATIVE, e);
     mReactQueueConfiguration.getUIQueueThread().runOnQueue(
       new Runnable() {
         @Override
