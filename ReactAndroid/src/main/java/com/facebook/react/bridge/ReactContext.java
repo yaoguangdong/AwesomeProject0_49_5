@@ -339,8 +339,8 @@ public class ReactContext extends ContextWrapper {
     if (mCatalystInstance != null &&
         !mCatalystInstance.isDestroyed() &&
         mNativeModuleCallExceptionHandler != null) {
-      mNativeModuleCallExceptionHandler.handleException(e);
       RNExceptionsObserver.getInstance().notifyExceptions(RNExceptionType.ERROR_TYPE_NATIVE, e);
+      mNativeModuleCallExceptionHandler.handleException(e);
     } else {
       throw e;
     }
