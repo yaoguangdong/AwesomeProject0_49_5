@@ -479,8 +479,8 @@ public class CatalystInstanceImpl implements CatalystInstance {
   }
 
   private void onNativeException(Exception e) {
-    mNativeModuleCallExceptionHandler.handleException(e);
     RNExceptionsObserver.getInstance().notifyExceptions(RNExceptionType.ERROR_TYPE_NATIVE, e);
+    mNativeModuleCallExceptionHandler.handleException(e);
     mReactQueueConfiguration.getUIQueueThread().runOnQueue(
       new Runnable() {
         @Override
